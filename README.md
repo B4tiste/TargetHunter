@@ -25,7 +25,7 @@ Be careful, each time you hit a target, your speed increases and you'll gain 1 p
 
 The default time of a game is 30s, but you can modify this value in this part of the code to fit your needs (l.25):
 
-**/!\ This value is only equal to the number of second of a single game if you are running on a 60 Hz monitor**
+**/!\ This value is only equal to the number of second of a single game if you are running on a 60 Hz monitor /!\\**
 
 ```python
 #Duration of a game : 30s
@@ -35,4 +35,4 @@ rem_time = 30
 Using `Ursina` engine in `Python` 
 
 By **B4tiste**, *a French guy who doesn't know how to code at all, and who's pretty garbage in English, but who wanna have fun*
-First GitHub repository ever made ¯\_(ツ)_/¯
+First GitHub repository ever made ¯\\_(ツ)_/¯
