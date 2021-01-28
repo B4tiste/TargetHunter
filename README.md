@@ -32,4 +32,5 @@ The default time of a game is 30s, but you can modify this value in this part of
 rem_time = 30
 ```
 
-By **B4tiste**, ***a French who doesn't know how to code at all, and who's pretty garbage in English, but who wanna have fun*** using `Ursina` engine in `Python`
+Using `Ursina` engine in `Python`
+By **B4tiste**, *a French guy who doesn't know how to code at all, and who's pretty garbage in English, but who wanna have fun*
