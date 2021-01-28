@@ -1,6 +1,6 @@
 # TargetHunter
 
-A little 2D game where you have to hunt red targets, with your speed increasing and decreasing as things progress
+A little 2D game where you have to hunt red targets, while your speed is increasing and decreasing as things progress
 
 ## How to play : 
 
@@ -22,5 +22,14 @@ Your goal is to catch as much red targets as you can, using the WASD key, you ca
 ```
 
 Be careful, each time you hit a target, your speed increases and you'll gain 1 point, but if you touch a wall, you'll be slower, and you'll lose a point !
+
+The default time of a game is 30s, but you can modify this value in this part of the code to fit your needs (l.25):
+
+**/!\ This value is only equal to the number of second of a single game if you are running on a 60 Hz monitor**
+
+```python
+#Duration of a game : 30s
+rem_time = 30
+```
 
 By **B4tiste**, using `Ursina` engine in `Python`
