@@ -35,3 +35,4 @@ rem_time = 30
 Using `Ursina` engine in `Python` 
 
 By **B4tiste**, *a French guy who doesn't know how to code at all, and who's pretty garbage in English, but who wanna have fun*
+First GitHub repository ever made ¯\_(ツ)_/¯
