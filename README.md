@@ -11,7 +11,7 @@ Your goal is to catch as much red targets as you can, using the WASD key, you ca
 
 ```python
 # WASD case :
-if held_keys['w']:#Go Up
+	if held_keys['w']:#Go Up
 		player.y = player.y + SPEED * time.dt
 	if held_keys['a']:#Go to the Left
 		player.x = player.x - SPEED * time.dt
