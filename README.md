@@ -7,7 +7,7 @@ A little 2D game where you have to hunt red targets, while your speed is increas
 Be sure to have `Ursina` installed, the render engine I used for this project by using :
 > pip install ursina
 
-Your goal is to catch as much red targets as you can, using the WASD key, you can change them to ZQSD for French people or anything you want, in this part of the `TargetHunter.py` code, by changing the letter in the [] :
+Your goal is to catch as much red targets as you can, using the WASD key, you can change them to ZQSD for French people or anything you want, in this part of the `TargetHunter.py` code, by changing the letter in the [ ] :
 
 ```python
 # WASD case :
