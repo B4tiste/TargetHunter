@@ -14,6 +14,9 @@ import os
 
 clear = lambda : os.system('cls')
 
+# Change this value according to your screen refresh rate :
+REFRESH_RATE = 60
+
 SPEED = 5
 startup_position = (0, 0)
 size_player = (1, 1)
@@ -37,7 +40,7 @@ def update():
 	
 	cpt = cpt + 1
 	
-	if cpt == 60 :
+	if cpt == REFRESH_RATE :
 		rem_time = rem_time - 1
 		cpt = 0
 	
@@ -80,6 +83,11 @@ def update():
 		player.position = startup_position
 		
 		SPEED = SPEED - 1
+		
+		if score < 0:
+			score = 0
+		if SPEED  < 1:
+			SPEED = 1
 
 	if player.y < -4 or player.y > 4:
 		
@@ -89,6 +97,11 @@ def update():
 		player.position = startup_position
 		
 		SPEED = SPEED - 1
+		
+		if score < 0:
+			score = 0
+		if SPEED  < 1:
+			SPEED = 1
 		
 	if rem_time == 0:
 	
