@@ -25,7 +25,14 @@ Be careful, each time you hit a target, your speed increases and you'll gain 1 p
 
 The default time of a game is 30s, but you can modify this value in this part of the code to fit your needs (l.25):
 
-**/!\ This value is only equal to the number of second of a single game if you are running on a 60 Hz monitor /!\\**
+**/!\ Change this value according to your screen refresh rate :  /!\\**
+
+```python
+#Refresh Rate value
+REFRESH_RATE = 60
+```
+
+You can change the duration of a game in this part of the code
 
 ```python
 #Duration of a game : 30s
