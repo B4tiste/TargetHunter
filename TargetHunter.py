@@ -2,10 +2,12 @@
 """
 TargetHunter game code
 
+github.com/B4tiste/TargetHunter
+
 @author: B4tiste
 """
 
-from ursina import * #Import all the Ursina lib
+from ursina import * #Import all the Urdina lib
 import random
 import time
 import os
@@ -21,7 +23,8 @@ DELAY = 0
 score = 0
 hits = 0
 time.sleep(DELAY)
-rem_time = 30
+#Duration of a game : 30s
+rem_time = 10
 cpt = 0
 
 def update():
@@ -98,8 +101,36 @@ def update():
 		print("\nTarget hit = " + str(hits))
 		print("\nYou touched " + str(hits-score) + ' times the side !')
 		
+		print('\n')
+		best_score_check()
+		
 		exit()
+		
+def best_score_check():
+	global score
 	
+	f_score = open('TargetHunter_score.txt', 'r')
+	saved_score = f_score.read()
+
+	f_score.close()
+
+	if int(saved_score) < score :
+	
+		print('Congratulations, You beat your best score by ' + str(score - int(saved_score)))
+	
+		f_score = open('TargetHunter_score.txt', 'w')
+	
+		f_score.write(str(score))
+	
+		score = int(score)
+	
+		f_score.close()
+
+	else :
+		score = int(saved_score)
+		
+		
+	print('Current best score = ' +str(score))
 
 #Create an instance of Ursina ~Window
 app = Ursina()
