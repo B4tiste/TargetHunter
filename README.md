@@ -31,7 +31,7 @@ The default time of a game is 30s, but you can modify this value in this part of
 **/!\ Change this value according to your screen refresh rate :  /!\\**
 
 ```python
-#Refresh Rate value
+#Refresh Rate value : 60hz
 REFRESH_RATE = 60
 ```
 
