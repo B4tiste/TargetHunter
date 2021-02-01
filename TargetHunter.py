@@ -14,7 +14,7 @@ import os
 
 clear = lambda : os.system('cls')
 
-# Change this value according to your screen refresh rate :
+# Change this value according to your screen refresh rate (60Hz for instance):
 REFRESH_RATE = 60
 
 SPEED = 5
