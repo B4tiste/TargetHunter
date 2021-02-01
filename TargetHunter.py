@@ -24,7 +24,7 @@ score = 0
 hits = 0
 time.sleep(DELAY)
 #Duration of a game : 30s
-rem_time = 10
+rem_time = 30
 cpt = 0
 
 def update():
