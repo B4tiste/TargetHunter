@@ -57,9 +57,6 @@ def update():
 	if held_keys['escape']:
 		exit()
 	
-	print('\nx = ' + str(player.x))
-	print('y = ' + str(player.y))
-	
 	if player.x < (target.x + GAP) and player.x > (target.x - GAP):
 		if player.y < (target.y + GAP) and player.y > (target.y - GAP):
 			x_rdm = random.randint(-5, 5)
