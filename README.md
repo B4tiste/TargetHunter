@@ -39,7 +39,7 @@ You can change the duration of a game in this part of the code
 
 ```python
 #Duration of a game : 30s
-rem_time = 30
+GAME_TIME = 30
 ```
 
 Using `Ursina` engine in `Python` 
