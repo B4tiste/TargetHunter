@@ -1,6 +1,6 @@
 # TargetHunter
 
-A little 2D game where you have to hunt red targets, while your speed is increasing and decreasing as things progress
+A little 2D game where you have to hunt red targets, while your speed is increasing and decreasing as things progress, with a score saving system
 
 ## How to play : 
 
