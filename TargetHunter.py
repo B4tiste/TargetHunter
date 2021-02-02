@@ -41,6 +41,7 @@ def menu() :
 
 	global menu_start
 	global var
+	global score
 		
 	target.scale = (0, 0)
 
@@ -98,6 +99,7 @@ def update():
 		player.position = STARTUP_POSITION
 		spd = SPEED
 		info.size = 0.03
+		info.color = color.white
 		info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
 		text_score.text = ''
 		text_menu.x = -0.65
