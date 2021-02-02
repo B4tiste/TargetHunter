@@ -42,12 +42,8 @@ def menu() :
 	global menu_start
 	global var
 		
-	# Erase the target and player texture
-	# target.texture = 'assets/transparent.png'
-	# player.texture = 'assets/transparent.png'
 	target.scale = (0, 0)
 
-	# Modify the score text
 	info.size = 0.00
 	text_score.text = '\nFinal Score = ' + str(score) + '\nTarget hit = ' + str(hits) + '\nYou touched ' + str(abs(hits-score)) + ' times the side !'
 
@@ -98,23 +94,15 @@ def update():
 		score = 0
 		hits = 0
 		rem_time = GAME_TIME
-		# target.texture = ''
-		# player.texture = ''
 		target.scale = SIZE_TARGET
-
 		player.position = STARTUP_POSITION
-
 		spd = SPEED
-
 		info.size = 0.03
 		info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
-
 		text_score.text = ''
-
 		text_menu.x = -0.65
 		text_menu.y = 0.45
 		text_menu.text = 'ESCAPE ==> MENU'
-
 		text_new_best_score.text = ''
 		text_current_score.text = ''
 	
