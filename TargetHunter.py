@@ -42,6 +42,7 @@ def menu() :
 	global menu_start
 	global var
 	global score
+	global hits
 		
 	target.scale = (0, 0)
 
@@ -170,12 +171,7 @@ def best_score_check():
 	
 		f_score.write(str(score))
 	
-		score = int(score)
-	
 		f_score.close()
-
-	else :
-		score = int(saved_score)
 	
 	text_current_score.text = 'Current best score = ' +str(score)
 			
