@@ -49,6 +49,6 @@ GAME_TIME = 30
 
 Using `Ursina` engine in `Python` 
 
-By **B4tiste**, *a French guy who doesn't know how to code anything else beside `Hello World`, and who's pretty garbage in English, but who wanna have fun*
+By [B4tiste](github.com/B4tiste "Go to B4tiste GitHub Page"), *a French guy who doesn't know how to code anything else beside `Hello World`, and who's pretty garbage in English, but who wanna have fun*
 
 My first GitHub repository ever made ツ
