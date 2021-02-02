@@ -17,27 +17,58 @@ clear = lambda : os.system('cls')
 # Change this value according to your screen refresh rate (60Hz for instance):
 REFRESH_RATE = 60
 
+#Duration of a game : 30s
+GAME_TIME = 10
+
 SPEED = 5
-startup_position = (0, 0)
-size_player = (1, 1)
-size_target = (0.5, 0.5)
+spd = SPEED
+STARTUP_POSITION = (0, 0)
+SIZE_PLAYER = (1, 1)
+SIZE_TARGET = (0.5, 0.5)
 GAP = 0.75
 DELAY = 0
 score = 0
 hits = 0
 time.sleep(DELAY)
-#Duration of a game : 30s
-rem_time = 30
+rem_time = GAME_TIME
 cpt = 0
+menu_start = 0
+var = 0
+
+window.borderless = False
+
+def menu() :
+
+	global menu_start
+	global var
+		
+	# Erase the target and player texture
+	# target.texture = 'assets/transparent.png'
+	# player.texture = 'assets/transparent.png'
+	target.scale = (0, 0)
+
+	# Modify the score text
+	info.size = 0.00
+	text_score.text = '\nFinal Score = ' + str(score) + '\nTarget hit = ' + str(hits) + '\nYou touched ' + str(abs(hits-score)) + ' times the side !'
+
+	best_score_check()
+
+	text_menu.x = 0
+	text_menu.y = 0.25
+
+	text_menu.text = 'Press SPACE to start the game'
 
 def update():
 
 	global cpt
 	global score
 	global hits
-	global SPEED
+	global spd
 	global rem_time
-	
+	global menu_start
+	global REFRESH_RATE
+	global var
+
 	cpt = cpt + 1
 	
 	if cpt == REFRESH_RATE :
@@ -47,18 +78,45 @@ def update():
 	info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
 
 	if held_keys['z']:#Go Up
-		player.y = player.y + SPEED * time.dt
+		player.y = player.y + spd * time.dt
 	if held_keys['q']:#Go to the Left
-		player.x = player.x - SPEED * time.dt
+		player.x = player.x - spd * time.dt
 	if held_keys['s']:#Go Down
-		player.y = player.y - SPEED * time.dt
+		player.y = player.y - spd * time.dt
 	if held_keys['d']:#Go to the Right
-		player.x = player.x + SPEED * time.dt
-	"""if held_keys['r']:#Reset the position of the player
-		player.x = 0
-		player.y = 0"""
-	if held_keys['escape']:
+		player.x = player.x + spd * time.dt
+
+	if held_keys['escape'] or rem_time == 0:
+		menu()
+
+	if held_keys['l'] :
 		exit()
+
+	if held_keys['space'] :
+		time.sleep(0.1)
+		menu_start = 1
+		score = 0
+		hits = 0
+		rem_time = GAME_TIME
+		# target.texture = ''
+		# player.texture = ''
+		target.scale = SIZE_TARGET
+
+		player.position = STARTUP_POSITION
+
+		spd = SPEED
+
+		info.size = 0.03
+		info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
+
+		text_score.text = ''
+
+		text_menu.x = -0.65
+		text_menu.y = 0.45
+		text_menu.text = 'ESCAPE ==> MENU'
+
+		text_new_best_score.text = ''
+		text_current_score.text = ''
 	
 	if player.x < (target.x + GAP) and player.x > (target.x - GAP):
 		if player.y < (target.y + GAP) and player.y > (target.y - GAP):
@@ -73,48 +131,38 @@ def update():
 		
 			info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
 			
-			SPEED = SPEED + 1
+			spd = spd + 1
 	
 	if player.x < -7 or player.x > 7:
 		
 		score = score - 1
 		info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
 		
-		player.position = startup_position
+		player.position = STARTUP_POSITION
 		
-		SPEED = SPEED - 1
+		spd = spd - 1
 		
 		if score < 0:
 			score = 0
-		if SPEED  < 1:
-			SPEED = 1
+		if spd  < 1:
+			spd = 1
 
 	if player.y < -4 or player.y > 4:
 		
 		score = score - 1
 		info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
 		
-		player.position = startup_position
+		player.position = STARTUP_POSITION
 		
-		SPEED = SPEED - 1
+		spd = spd - 1
 		
 		if score < 0:
 			score = 0
-		if SPEED  < 1:
-			SPEED = 1
-		
-	if rem_time == 0:
-	
-		clear()
-		
-		print("\nFinal Score = " + str(score))
-		print("\nTarget hit = " + str(hits))
-		print("\nYou touched " + str(hits-score) + ' times the side !')
-		
-		print('\n')
-		best_score_check()
-		
-		exit()
+		if spd  < 1:
+			spd = 1
+
+	if rem_time < 6:
+		info.color = color.red
 		
 def best_score_check():
 	global score
@@ -126,8 +174,8 @@ def best_score_check():
 
 	if int(saved_score) < score :
 	
-		print('Congratulations, You beat your best score by ' + str(score - int(saved_score)))
-	
+		text_new_best_score.text = 'Congratulations, You beat your best score by ' + str(score - int(saved_score))
+
 		f_score = open('TargetHunter_score.txt', 'w')
 	
 		f_score.write(str(score))
@@ -138,9 +186,9 @@ def best_score_check():
 
 	else :
 		score = int(saved_score)
-		
-		
-	print('Current best score = ' +str(score))
+	
+	text_current_score.text = 'Current best score = ' +str(score)
+			
 
 #Create an instance of Ursina ~Window
 app = Ursina()
@@ -149,11 +197,21 @@ app = Ursina()
 # [entity_name] = Entity(model = 'model', color = color.COLOR_NAME, scale = (x, y), position = (x, y))
 # The center of the window is the point with (x, y) = (0, 0)
 
-player = Entity(model = 'quad', color = color.green, scale = size_player, position = startup_position)
+player = Entity(model = 'quad', color = color.green, scale = SIZE_PLAYER, position = STARTUP_POSITION)
 
-target = Entity(model = 'quad', color = color.red, scale = size_target, position = (1, 1))
+target = Entity(model = 'quad', color = color.red, scale = SIZE_TARGET, position = (1, 1))
 
-info = Text(text = 'Score', origin = (0, 0), color = color.white)
+info = Text(text = 'Score', origin = (0, 0), size = 0.03, color = color.white)
+
+text_score = Text(text = '', origin = (0, 0), size = 0.03, color = color.cyan)
+
+text_new_best_score = Text(text = '', origin = (0, 0), size = 0.03, color = color.green, x = 0, y = -0.30)
+
+text_current_score = Text(text = '', origin = (0, 0), size = 0.03, color = color.green, x = 0, y = -0.20)
+
+text_menu = Text(text = 'ESCAPE ==> MENU', size = 0.03, origin =(0, 0), color = color.peach, font = 'assets/Minecraft.ttf', x = -0.65, y = 0.45)
+
+text_exit = Text(text = 'PRESS L TO LEAVE THE GAME', size = 0.03, origin =(0, 0), color = color.peach, font = 'assets/Minecraft.ttf', x = -0.65, y = 0.35)
 
 #Start the instance created at l.109
 app.run()
