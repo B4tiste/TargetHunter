@@ -4,7 +4,7 @@ A little 2D game where you have to hunt red targets, while your speed is increas
 
 Be sure to check all the information below before playing 
 
-In game : 
+In game screenshot : 
 ![alt text](https://github.com/B4tiste/TargetHunter/blob/main/Pictures/Game.PNG?raw=true "Logo Title Text 1")
 
 Final score screen : 
