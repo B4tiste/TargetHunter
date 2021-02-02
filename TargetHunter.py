@@ -7,10 +7,28 @@ github.com/B4tiste/TargetHunter
 @author: B4tiste
 """
 
-from ursina import * #Import all the Urdina lib
+from ursina import * #Import all the Ursina lib
 import random
 import time
 import os
+
+#Import JSON
+
+#def : Open the score file
+def loadscore(name):
+	# = to score = open('score.json')
+	with open('score.json') as score:
+		data = json.load(config)
+	return data[name]
+
+	#This function is used to READ the JSON file
+
+#def : Write in the score file
+def writescore(score):
+	with open('score.json' as scorefile)
+		data = json.dump(score ,scorefile)
+		#score must be in this format : score = [{'data1' : 'value1','data2' : 'value2'}]
+
 
 clear = lambda : os.system('cls')
 
@@ -43,7 +61,7 @@ def menu() :
 	global var
 	global score
 	global hits
-		
+
 	target.scale = (0, 0)
 
 	info.size = 0.00
@@ -68,11 +86,11 @@ def update():
 	global var
 
 	cpt = cpt + 1
-	
+
 	if cpt == REFRESH_RATE :
 		rem_time = rem_time - 1
 		cpt = 0
-	
+
 	info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
 
 	if held_keys['z']:#Go Up
@@ -108,45 +126,45 @@ def update():
 		text_menu.text = 'ESCAPE ==> MENU'
 		text_new_best_score.text = ''
 		text_current_score.text = ''
-	
+
 	if player.x < (target.x + GAP) and player.x > (target.x - GAP):
 		if player.y < (target.y + GAP) and player.y > (target.y - GAP):
 			x_rdm = random.randint(-5, 5)
 			y_rdm = random.randint(-3, 3)
-			
+
 			target.x = x_rdm
 			target.y = y_rdm
-			
+
 			score = score + 1
 			hits = hits + 1
-		
+
 			info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
-			
+
 			spd = spd + 1
-	
+
 	if player.x < -7 or player.x > 7:
-		
+
 		score = score - 1
 		info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
-		
+
 		player.position = STARTUP_POSITION
-		
+
 		spd = spd - 1
-		
+
 		if score < 0:
 			score = 0
 		if spd  < 1:
 			spd = 1
 
 	if player.y < -4 or player.y > 4:
-		
+
 		score = score - 1
 		info.text = 'Score = ' + str(score) + '\nTime remaining : ' + str(rem_time) + 's'
-		
+
 		player.position = STARTUP_POSITION
-		
+
 		spd = spd - 1
-		
+
 		if score < 0:
 			score = 0
 		if spd  < 1:
@@ -154,27 +172,27 @@ def update():
 
 	if rem_time < 6:
 		info.color = color.red
-		
+
 def best_score_check():
 	global score
-	
+
 	f_score = open('TargetHunter_score.txt', 'r')
 	saved_score = f_score.read()
 
 	f_score.close()
 
 	if int(saved_score) < score :
-	
+
 		text_new_best_score.text = 'Congratulations, You beat your best score by ' + str(score - int(saved_score))
 
 		f_score = open('TargetHunter_score.txt', 'w')
-	
+
 		f_score.write(str(score))
-	
+
 		f_score.close()
-	
+
 	text_current_score.text = 'Current best score = ' +str(score)
-			
+
 
 #Create an instance of Ursina ~Window
 app = Ursina()
