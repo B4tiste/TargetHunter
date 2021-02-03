@@ -35,6 +35,8 @@ cpt = 0
 menu_start = 0
 var = 0
 
+is_in_menu = 0
+
 window.borderless = False
 
 def menu() :
@@ -43,6 +45,9 @@ def menu() :
 	global var
 	global score
 	global hits
+	global is_in_menu
+
+	is_in_menu = 1
 		
 	target.scale = (0, 0)
 
@@ -66,6 +71,7 @@ def update():
 	global menu_start
 	global REFRESH_RATE
 	global var
+	global is_in_menu
 
 	cpt = cpt + 1
 	
@@ -90,7 +96,10 @@ def update():
 	if held_keys['l'] :
 		exit()
 
-	if held_keys['space'] :
+	if held_keys['space'] and is_in_menu :
+
+		is_in_menu = 0
+
 		time.sleep(0.1)
 		menu_start = 1
 		score = 0
