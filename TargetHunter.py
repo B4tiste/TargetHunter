@@ -7,7 +7,7 @@ github.com/B4tiste/TargetHunter
 @author: B4tiste
 """
 
-from ursina import * #Import all the Urdina lib
+from ursina import * #Import all the Ursina lib
 import random
 import time
 import os
