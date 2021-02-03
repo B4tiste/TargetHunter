@@ -34,6 +34,7 @@ rem_time = GAME_TIME
 cpt = 0
 menu_start = 0
 var = 0
+wall_hit = 0
 
 is_in_menu = 0
 
@@ -52,7 +53,7 @@ def menu() :
 	target.scale = (0, 0)
 
 	info.size = 0.00
-	text_score.text = '\nFinal Score = ' + str(score) + '\nTarget hit = ' + str(hits) + '\nYou touched ' + str(abs(hits-score)) + ' times the side !'
+	text_score.text = '\nFinal Score = ' + str(score) + '\nTarget hit = ' + str(hits) + '\nYou touched ' + str(wall_hit) + ' times the side !'
 
 	best_score_check()
 
@@ -72,6 +73,7 @@ def update():
 	global REFRESH_RATE
 	global var
 	global is_in_menu
+	global wall_hit
 
 	cpt = cpt + 1
 	
@@ -104,6 +106,7 @@ def update():
 		menu_start = 1
 		score = 0
 		hits = 0
+		wall_hit = 0
 		rem_time = GAME_TIME
 		target.scale = SIZE_TARGET
 		player.position = STARTUP_POSITION
@@ -118,6 +121,7 @@ def update():
 		text_new_best_score.text = ''
 		text_current_score.text = ''
 	
+	# When the player hits a target
 	if player.x < (target.x + GAP) and player.x > (target.x - GAP):
 		if player.y < (target.y + GAP) and player.y > (target.y - GAP):
 			x_rdm = random.randint(-5, 5)
@@ -133,6 +137,7 @@ def update():
 			
 			spd = spd + 1
 	
+	# When the player hits one of the left or right border
 	if player.x < -7 or player.x > 7:
 		
 		score = score - 1
@@ -147,6 +152,9 @@ def update():
 		if spd  < 1:
 			spd = 1
 
+		wall_hit = wall_hit + 1
+
+	# When the player hits one of the upper or lower border
 	if player.y < -4 or player.y > 4:
 		
 		score = score - 1
@@ -161,6 +169,8 @@ def update():
 		if spd  < 1:
 			spd = 1
 
+		wall_hit = wall_hit + 1
+
 	if rem_time < 6:
 		info.color = color.red
 		
@@ -168,6 +178,7 @@ def best_score_check():
 	global score
 	
 	f_score = open('TargetHunter_score.txt', 'r')
+
 	saved_score = f_score.read()
 
 	f_score.close()
@@ -182,7 +193,13 @@ def best_score_check():
 	
 		f_score.close()
 	
-	text_current_score.text = 'Current best score = ' +str(score)
+	f_score = open('TargetHunter_score.txt', 'r')
+	
+	saved_score = f_score.read()
+
+	f_score.close()
+
+	text_current_score.text = 'Current best score = ' + str(saved_score)
 			
 
 #Create an instance of Ursina ~Window
