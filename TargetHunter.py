@@ -20,7 +20,7 @@ def clear(): return os.system('cls')
 REFRESH_RATE = 60
 
 # Duration of a game : 30s
-GAME_TIME = 30
+GAME_TIME = 20
 
 SPEED = 5
 spd = SPEED
@@ -42,7 +42,6 @@ wall_hit = 0
 bonus_hit = 0
 
 rdm = 0
-rdm_time_bonus = random.randint(5, 25)
 
 is_bonus_on = 0
 bonus_iter = 0
@@ -110,8 +109,9 @@ def update():
     global rdm
     global bonus_iter
     global STEP_BONUS
-    global rdm_time_bonus
     global bonus_hit
+
+    rdm_time_bonus = random.randint(5, int(GAME_TIME/2))
 
     cpt = cpt + 1
 
@@ -168,6 +168,8 @@ def update():
         score = 0
         hits = 0
         wall_hit = 0
+        bonus_hit = 0
+        is_bonus_on = 0
         rem_time = GAME_TIME
         target.scale = SIZE_TARGET
         player.position = STARTUP_POSITION
@@ -209,7 +211,7 @@ def update():
 
                 is_bonus_on = 0
 
-                bonus.scale = (1, 1)
+                bonus.scale = (0, 0)
                 bonus.color = color.dark_gray
                 bonus.position = (7, 4)
 
@@ -218,7 +220,10 @@ def update():
     # When the player hits one of the left or right border
     if player.x < -7 or player.x > 7:
 
-        score = score - 1
+        if is_in_menu == 0:
+            score = score - 1
+            wall_hit = wall_hit + 1
+
         info.text = 'Score = ' + \
             str(score) + '\nTime remaining : ' + str(rem_time) + 's'
 
@@ -230,13 +235,14 @@ def update():
             score = 0
         if spd < 1:
             spd = 1
-
-        wall_hit = wall_hit + 1
 
     # When the player hits one of the upper or lower border
     if player.y < -4 or player.y > 4:
 
-        score = score - 1
+        if is_in_menu == 0:
+            score = score - 1
+            wall_hit = wall_hit + 1
+
         info.text = 'Score = ' + \
             str(score) + '\nTime remaining : ' + str(rem_time) + 's'
 
@@ -248,8 +254,6 @@ def update():
             score = 0
         if spd < 1:
             spd = 1
-
-        wall_hit = wall_hit + 1
 
     # When the bonus leaves the window
     if bonus.x < -7 or bonus.x > 7 or bonus.y < -4 or bonus.y > 4:
@@ -258,10 +262,11 @@ def update():
         bonus.y = 0
 
     if rem_time < 6:
-        info.color = color.red
+        info.color = color.orange
 
 
 def best_score_check():
+
     global score
 
     f_score = open('TargetHunter_score.txt', 'r')
