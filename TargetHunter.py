@@ -27,6 +27,8 @@ spd = SPEED
 STARTUP_POSITION = (0, 0)
 SIZE_PLAYER = (1, 1)
 SIZE_TARGET = (0.5, 0.5)
+SIZE_BONUS = (0.3, 0.3)
+STEP_BONUS = 0.3
 GAP = 0.75
 DELAY = 0
 score = 0
@@ -37,7 +39,13 @@ cpt = 0
 menu_start = 0
 var = 0
 wall_hit = 0
+bonus_hit = 0
 
+rdm = 0
+rdm_time_bonus = random.randint(5, 25)
+
+is_bonus_on = 0
+bonus_iter = 0
 is_in_menu = 0
 
 window.borderless = False
@@ -50,10 +58,12 @@ def menu():
     global score
     global hits
     global is_in_menu
+    global is_bonus_on
 
     is_in_menu = 1
 
     target.scale = (0, 0)
+    bonus.scale = (0, 0)
 
     info.size = 0.00
     text_score.text = '\nFinal Score = ' + str(score) + '\nTarget hit = ' + str(
@@ -65,6 +75,23 @@ def menu():
     text_menu.y = 0.25
 
     text_menu.text = 'Press SPACE to start the game'
+
+
+def bonus_start():
+
+    global SIZE_BONUS
+    global is_bonus_on
+
+    is_bonus_on = 0
+
+    bonus.scale = SIZE_BONUS
+    bonus.color = color.magenta
+
+    x_rdm = random.randint(-5, 5)
+    y_rdm = random.randint(-3, 3)
+
+    bonus.x = x_rdm
+    bonus.y = y_rdm
 
 
 def update():
@@ -79,6 +106,12 @@ def update():
     global var
     global is_in_menu
     global wall_hit
+    global is_bonus_on
+    global rdm
+    global bonus_iter
+    global STEP_BONUS
+    global rdm_time_bonus
+    global bonus_hit
 
     cpt = cpt + 1
 
@@ -98,18 +131,40 @@ def update():
     if held_keys['d']:  # Go to the Right
         player.x = player.x + spd * time.dt
 
+    if rem_time == rdm_time_bonus:
+        is_bonus_on = 1
+        if bonus_iter == 0:
+            bonus_iter = 1
+            bonus_start()
+
+    if is_bonus_on:
+
+        if cpt % 2 == 0:
+            rdm = random.randint(1, 4)
+
+            if rdm == 1:
+                bonus.y = bonus.y + STEP_BONUS
+            if rdm == 2:
+                bonus.y = bonus.y - STEP_BONUS
+            if rdm == 3:
+                bonus.x = bonus.x - STEP_BONUS
+            if rdm == 4:
+                bonus.x = bonus.x + STEP_BONUS
+
     if held_keys['escape'] or rem_time == 0:
         menu()
 
     if held_keys['l']:
         exit()
 
+    # Game restart
     if held_keys['space'] and is_in_menu:
 
         is_in_menu = 0
 
         time.sleep(0.1)
         menu_start = 1
+        bonus_iter = 0
         score = 0
         hits = 0
         wall_hit = 0
@@ -131,19 +186,34 @@ def update():
     # When the player hits a target
     if player.x < (target.x + GAP) and player.x > (target.x - GAP):
         if player.y < (target.y + GAP) and player.y > (target.y - GAP):
-            x_rdm = random.randint(-5, 5)
-            y_rdm = random.randint(-3, 3)
+            if is_in_menu == 0:
+                x_rdm = random.randint(-5, 5)
+                y_rdm = random.randint(-3, 3)
 
-            target.x = x_rdm
-            target.y = y_rdm
+                target.x = x_rdm
+                target.y = y_rdm
 
-            score = score + 1
-            hits = hits + 1
+                score = score + 1
+                hits = hits + 1
 
-            info.text = 'Score = ' + \
-                str(score) + '\nTime remaining : ' + str(rem_time) + 's'
+                info.text = 'Score = ' + \
+                    str(score) + '\nTime remaining : ' + str(rem_time) + 's'
 
-            spd = spd + 1
+                spd = spd + 1
+
+    # When the player hits a bonus
+    if player.x < (bonus.x + GAP) and player.x > (bonus.x - GAP):
+        if player.y < (bonus.y + GAP) and player.y > (bonus.y - GAP):
+            if is_bonus_on == 1 and bonus_hit == 0:
+                bonus_hit = 1
+
+                is_bonus_on = 0
+
+                bonus.scale = (1, 1)
+                bonus.color = color.dark_gray
+                bonus.position = (7, 4)
+
+                rem_time = rem_time + 5
 
     # When the player hits one of the left or right border
     if player.x < -7 or player.x > 7:
@@ -180,6 +250,12 @@ def update():
             spd = 1
 
         wall_hit = wall_hit + 1
+
+    # When the bonus leaves the window
+    if bonus.x < -7 or bonus.x > 7 or bonus.y < -4 or bonus.y > 4:
+
+        bonus.x = 0
+        bonus.y = 0
 
     if rem_time < 6:
         info.color = color.red
@@ -227,6 +303,9 @@ player = Entity(model='quad', color=color.green,
 target = Entity(model='quad', color=color.red,
                 scale=SIZE_TARGET, position=(1, 1))
 
+bonus = Entity(model='quad', color=color.dark_gray,
+               scale=(0, 0), position=(7, 4))
+
 info = Text(text='Score', origin=(0, 0), size=0.03, color=color.white)
 
 text_score = Text(text='', origin=(0, 0), size=0.03, color=color.cyan)
@@ -242,6 +321,9 @@ text_menu = Text(text='ESCAPE ==> MENU', size=0.03, origin=(
 
 text_exit = Text(text='PRESS L TO LEAVE THE GAME', size=0.03, origin=(
     0, 0), color=color.peach, font='assets/Minecraft.ttf', x=-0.65, y=0.35)
+
+text_bonus = Text(text='Flying Bonus : +5s', size=0.03, origin=(
+    0, 0), color=color.peach, font='assets/Minecraft.ttf', x=-0.65, y=0.40)
 
 # Start the instance created at l.109
 app.run()
