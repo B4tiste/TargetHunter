@@ -20,7 +20,7 @@ def clear(): return os.system('cls')
 REFRESH_RATE = 60
 
 # Duration of a game : 30s
-GAME_TIME = 20
+GAME_TIME = 30
 
 SPEED = 5
 spd = SPEED
