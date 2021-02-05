@@ -15,6 +15,15 @@ Be sure to check all the information below before playing
 Be sure to have `Ursina` installed, the render engine I used for this project by using :
 > pip install ursina
 
+Then, clone this repository to your Computer and navigate into it by typing these commands :
+> git clone https://github.com/B4tiste/TargetHunter.git
+
+> cd TargetHunter
+
+To launch the game, type :
+> python TargetHunter.py
+
+
 Your goal is to catch as much red targets as you can, using the WASD key, you can change them to ZQSD for French people or anything you want, in this part of the `TargetHunter.py` code, by changing the letter in the [ ] :
 
 ```python
