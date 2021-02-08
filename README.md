@@ -12,7 +12,7 @@ Be sure to check all the information below before playing
 
 ## How to play : 
 ### Requirements
-Be sure to have `Ursina` installed, the render engine I used for this project by using :
+Be sure to have `Ursina` installed, the render engine I used for this project by using the following command, wich required the `pip` module :
 > pip install ursina
 
 Then, clone this repository to your Computer and navigate into it by typing these commands :
