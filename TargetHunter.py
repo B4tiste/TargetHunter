@@ -141,7 +141,7 @@ def update():
     global penalty_effect
 
     rdm_time_bonus = random.randint(5, int(GAME_TIME/2))
-    rdm_time_penalty = random.randint(1, int(GAME_TIME/6))
+    rdm_time_penalty = random.randint(1, 5)
 
     cpt = cpt + 1
 
