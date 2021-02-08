@@ -47,6 +47,8 @@ Be careful, each time you hit a target, your speed increases and you'll gain 1 p
 
 You can also catch a Bonus, wich is represented by a magenta square flying around during the game. This bonus will give you 5 extra seconds to play the game and try to catch as much targets as you can !
 
+There is also a little black square that will invert your control during the last seconds of the game !
+
 ### Game Settings
 The default time of a game is 30s, wich depends of the refresh rate of your computer screen, but you can modify the value of your screen refresh rate in this part of the code to fit your needs :
 
