@@ -28,7 +28,9 @@ STARTUP_POSITION = (0, 0)
 SIZE_PLAYER = (1, 1)
 SIZE_TARGET = (0.5, 0.5)
 SIZE_BONUS = (0.3, 0.3)
+SIZE_MALUS = (0.3, 0.3)
 STEP_BONUS = 0.3
+STEP_MALUS = 0.2
 GAP = 0.75
 DELAY = 0
 score = 0
@@ -40,11 +42,15 @@ menu_start = 0
 var = 0
 wall_hit = 0
 bonus_hit = 0
+malus_hit = 0
+malus_effect = 0
 
 rdm = 0
 
 is_bonus_on = 0
 bonus_iter = 0
+is_malus_on = 0
+malus_iter = 0
 is_in_menu = 0
 
 window.borderless = False
@@ -92,6 +98,21 @@ def bonus_start():
     bonus.x = x_rdm
     bonus.y = y_rdm
 
+def malus_start():
+
+    global SIZE_MALUS
+    global is_malus_on
+
+    is_malus_on = 0
+
+    malus.scale = SIZE_MALUS
+    malus.color = color.black
+
+    x_rdm = random.randint(-5, 5)
+    y_rdm = random.randint(-3, 3)
+
+    malus.x = x_rdm
+    malus.y = y_rdm
 
 def update():
 
@@ -106,12 +127,18 @@ def update():
     global is_in_menu
     global wall_hit
     global is_bonus_on
+    global is_malus_on
     global rdm
     global bonus_iter
+    global malus_iter
     global STEP_BONUS
+    global STEP_MALUS
     global bonus_hit
+    global malus_hit
+    global malus_effect
 
     rdm_time_bonus = random.randint(5, int(GAME_TIME/2))
+    rdm_time_malus = random.randint(1, int(GAME_TIME/6))
 
     cpt = cpt + 1
 
@@ -122,20 +149,39 @@ def update():
     info.text = 'Score = ' + str(score) + \
         '\nTime remaining : ' + str(rem_time) + 's'
 
-    if held_keys['z']:  # Go Up
-        player.y = player.y + spd * time.dt
-    if held_keys['q']:  # Go to the Left
-        player.x = player.x - spd * time.dt
-    if held_keys['s']:  # Go Down
-        player.y = player.y - spd * time.dt
-    if held_keys['d']:  # Go to the Right
-        player.x = player.x + spd * time.dt
+    if malus_effect == 0:
+        if held_keys['z']:  # Go Up
+            player.y = player.y + spd * time.dt
+        if held_keys['q']:  # Go to the Left
+            player.x = player.x - spd * time.dt
+        if held_keys['s']:  # Go Down
+            player.y = player.y - spd * time.dt
+        if held_keys['d']:  # Go to the Right
+            player.x = player.x + spd * time.dt
+    
+    if malus_effect == 1 :
+        if held_keys['s']:  # Go Up REVERSE
+            player.y = player.y + spd * time.dt
+        if held_keys['d']:  # Go to the Left REVERSE
+            player.x = player.x - spd * time.dt
+        if held_keys['z']:  # Go Down REVERSE
+            player.y = player.y - spd * time.dt
+        if held_keys['q']:  # Go to the Right REVERSE
+            player.x = player.x + spd * time.dt
 
     if rem_time == rdm_time_bonus:
         is_bonus_on = 1
         if bonus_iter == 0:
             bonus_iter = 1
             bonus_start()
+
+    if rem_time == rdm_time_malus:
+        is_malus_on = 1
+        if malus_iter == 0:
+            malus_iter = 1
+            malus_start()
+
+    #if rem_time == 
 
     if is_bonus_on:
 
@@ -151,6 +197,22 @@ def update():
             if rdm == 4:
                 bonus.x = bonus.x + STEP_BONUS
 
+    if is_malus_on:
+
+        if cpt % 2 == 0:
+            rdm = random.randint(1, 4)
+
+            if rdm == 1:
+                malus.y = malus.y + STEP_MALUS
+            if rdm == 2:
+                malus.y = malus.y - STEP_MALUS
+            if rdm == 3:
+                malus.x = malus.x - STEP_MALUS
+            if rdm == 4:
+                malus.x = malus.x + STEP_MALUS
+            
+
+
     if held_keys['escape'] or rem_time == 0:
         menu()
 
@@ -165,11 +227,15 @@ def update():
         time.sleep(0.1)
         menu_start = 1
         bonus_iter = 0
+        malus_iter
         score = 0
         hits = 0
         wall_hit = 0
         bonus_hit = 0
+        malus_hit = 0
         is_bonus_on = 0
+        is_malus_on = 0
+        malus_effect = 0
         rem_time = GAME_TIME
         target.scale = SIZE_TARGET
         player.position = STARTUP_POSITION
@@ -216,6 +282,20 @@ def update():
                 bonus.position = (7, 4)
 
                 rem_time = rem_time + 5
+    
+    # When the player hits a malus
+    if player.x < (malus.x + GAP) and player.x > (malus.x - GAP):
+        if player.y < (malus.y + GAP) and player.y > (malus.y - GAP):
+            if is_malus_on == 1 and malus_hit == 0:
+                malus_hit = 1
+
+                is_malus_on = 0
+
+                malus.scale = (0, 0)
+                malus.color = color.dark_gray
+                malus.position = (7, 4)
+
+                malus_effect = 1
 
     # When the player hits one of the left or right border
     if player.x < -7 or player.x > 7:
@@ -260,6 +340,12 @@ def update():
 
         bonus.x = 0
         bonus.y = 0
+    
+    # When the malus leaves the window
+    if malus.x < -7 or malus.x > 7 or malus.y < -4 or malus.y > 4:
+
+        malus.x = 0
+        malus.y = 0
 
     if rem_time < 6:
         info.color = color.orange
@@ -309,6 +395,9 @@ target = Entity(model='quad', color=color.red,
                 scale=SIZE_TARGET, position=(1, 1))
 
 bonus = Entity(model='quad', color=color.dark_gray,
+               scale=(0, 0), position=(7, 4))
+
+malus = Entity(model='quad', color=color.dark_gray,
                scale=(0, 0), position=(7, 4))
 
 info = Text(text='Score', origin=(0, 0), size=0.03, color=color.white)
