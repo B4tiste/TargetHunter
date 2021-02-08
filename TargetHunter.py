@@ -69,6 +69,7 @@ def menu():
 
     target.scale = (0, 0)
     bonus.scale = (0, 0)
+    malus.scale = (0, 0)
 
     info.size = 0.00
     text_score.text = '\nFinal Score = ' + str(score) + '\nTarget hit = ' + str(
@@ -98,6 +99,7 @@ def bonus_start():
     bonus.x = x_rdm
     bonus.y = y_rdm
 
+
 def malus_start():
 
     global SIZE_MALUS
@@ -113,6 +115,7 @@ def malus_start():
 
     malus.x = x_rdm
     malus.y = y_rdm
+
 
 def update():
 
@@ -158,8 +161,8 @@ def update():
             player.y = player.y - spd * time.dt
         if held_keys['d']:  # Go to the Right
             player.x = player.x + spd * time.dt
-    
-    if malus_effect == 1 :
+
+    if malus_effect == 1:
         if held_keys['s']:  # Go Up REVERSE
             player.y = player.y + spd * time.dt
         if held_keys['d']:  # Go to the Left REVERSE
@@ -180,8 +183,6 @@ def update():
         if malus_iter == 0:
             malus_iter = 1
             malus_start()
-
-    #if rem_time == 
 
     if is_bonus_on:
 
@@ -210,10 +211,11 @@ def update():
                 malus.x = malus.x - STEP_MALUS
             if rdm == 4:
                 malus.x = malus.x + STEP_MALUS
-            
-
 
     if held_keys['escape'] or rem_time == 0:
+        is_bonus_on = 0
+        is_malus_on = 0
+        malus_effect = 0
         menu()
 
     if held_keys['l']:
@@ -282,7 +284,7 @@ def update():
                 bonus.position = (7, 4)
 
                 rem_time = rem_time + 5
-    
+
     # When the player hits a malus
     if player.x < (malus.x + GAP) and player.x > (malus.x - GAP):
         if player.y < (malus.y + GAP) and player.y > (malus.y - GAP):
@@ -340,7 +342,7 @@ def update():
 
         bonus.x = 0
         bonus.y = 0
-    
+
     # When the malus leaves the window
     if malus.x < -7 or malus.x > 7 or malus.y < -4 or malus.y > 4:
 
@@ -363,7 +365,7 @@ def best_score_check():
 
     if int(saved_score) < score:
 
-        text_new_best_score.text = 'Congratulations, You beat your best score by ' + \
+        text_new_best_score.text = 'Congratulations, you beat your best score by ' + \
             str(score - int(saved_score))
 
         f_score = open('TargetHunter_score.txt', 'w')
