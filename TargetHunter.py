@@ -28,9 +28,9 @@ STARTUP_POSITION = (0, 0)
 SIZE_PLAYER = (1, 1)
 SIZE_TARGET = (0.5, 0.5)
 SIZE_BONUS = (0.3, 0.3)
-SIZE_MALUS = (0.3, 0.3)
+SIZE_PENALTY = (0.3, 0.3)
 STEP_BONUS = 0.3
-STEP_MALUS = 0.2
+STEP_PENALTY = 0.2
 GAP = 0.75
 DELAY = 0
 score = 0
@@ -42,15 +42,15 @@ menu_start = 0
 var = 0
 wall_hit = 0
 bonus_hit = 0
-malus_hit = 0
-malus_effect = 0
+penalty_hit = 0
+penalty_effect = 0
 
 rdm = 0
 
 is_bonus_on = 0
 bonus_iter = 0
-is_malus_on = 0
-malus_iter = 0
+is_penalty_on = 0
+penalty_iter = 0
 is_in_menu = 0
 
 window.borderless = False
@@ -69,7 +69,7 @@ def menu():
 
     target.scale = (0, 0)
     bonus.scale = (0, 0)
-    malus.scale = (0, 0)
+    penalty.scale = (0, 0)
 
     info.size = 0.00
     text_score.text = '\nFinal Score = ' + str(score) + '\nTarget hit = ' + str(
@@ -100,21 +100,21 @@ def bonus_start():
     bonus.y = y_rdm
 
 
-def malus_start():
+def penalty_start():
 
-    global SIZE_MALUS
-    global is_malus_on
+    global SIZE_PENALTY
+    global is_penalty_on
 
-    is_malus_on = 0
+    is_penalty_on = 0
 
-    malus.scale = SIZE_MALUS
-    malus.color = color.black
+    penalty.scale = SIZE_PENALTY
+    penalty.color = color.black
 
     x_rdm = random.randint(-5, 5)
     y_rdm = random.randint(-3, 3)
 
-    malus.x = x_rdm
-    malus.y = y_rdm
+    penalty.x = x_rdm
+    penalty.y = y_rdm
 
 
 def update():
@@ -130,18 +130,18 @@ def update():
     global is_in_menu
     global wall_hit
     global is_bonus_on
-    global is_malus_on
+    global is_penalty_on
     global rdm
     global bonus_iter
-    global malus_iter
+    global penalty_iter
     global STEP_BONUS
-    global STEP_MALUS
+    global STEP_PENALTY
     global bonus_hit
-    global malus_hit
-    global malus_effect
+    global penalty_hit
+    global penalty_effect
 
     rdm_time_bonus = random.randint(5, int(GAME_TIME/2))
-    rdm_time_malus = random.randint(1, int(GAME_TIME/6))
+    rdm_time_penalty = random.randint(1, int(GAME_TIME/6))
 
     cpt = cpt + 1
 
@@ -152,7 +152,7 @@ def update():
     info.text = 'Score = ' + str(score) + \
         '\nTime remaining : ' + str(rem_time) + 's'
 
-    if malus_effect == 0:
+    if penalty_effect == 0:
         if held_keys['z']:  # Go Up
             player.y = player.y + spd * time.dt
         if held_keys['q']:  # Go to the Left
@@ -162,7 +162,7 @@ def update():
         if held_keys['d']:  # Go to the Right
             player.x = player.x + spd * time.dt
 
-    if malus_effect == 1:
+    if penalty_effect == 1:
         if held_keys['s']:  # Go Up REVERSE
             player.y = player.y + spd * time.dt
         if held_keys['d']:  # Go to the Left REVERSE
@@ -178,11 +178,11 @@ def update():
             bonus_iter = 1
             bonus_start()
 
-    if rem_time == rdm_time_malus:
-        is_malus_on = 1
-        if malus_iter == 0:
-            malus_iter = 1
-            malus_start()
+    if rem_time == rdm_time_penalty:
+        is_penalty_on = 1
+        if penalty_iter == 0:
+            penalty_iter = 1
+            penalty_start()
 
     if is_bonus_on:
 
@@ -198,24 +198,24 @@ def update():
             if rdm == 4:
                 bonus.x = bonus.x + STEP_BONUS
 
-    if is_malus_on:
+    if is_penalty_on:
 
         if cpt % 2 == 0:
             rdm = random.randint(1, 4)
 
             if rdm == 1:
-                malus.y = malus.y + STEP_MALUS
+                penalty.y = penalty.y + STEP_PENALTY
             if rdm == 2:
-                malus.y = malus.y - STEP_MALUS
+                penalty.y = penalty.y - STEP_PENALTY
             if rdm == 3:
-                malus.x = malus.x - STEP_MALUS
+                penalty.x = penalty.x - STEP_PENALTY
             if rdm == 4:
-                malus.x = malus.x + STEP_MALUS
+                penalty.x = penalty.x + STEP_PENALTY
 
     if held_keys['escape'] or rem_time == 0:
         is_bonus_on = 0
-        is_malus_on = 0
-        malus_effect = 0
+        is_penalty_on = 0
+        penalty_effect = 0
         menu()
 
     if held_keys['l']:
@@ -229,15 +229,15 @@ def update():
         time.sleep(0.1)
         menu_start = 1
         bonus_iter = 0
-        malus_iter
+        penalty_iter
         score = 0
         hits = 0
         wall_hit = 0
         bonus_hit = 0
-        malus_hit = 0
+        penalty_hit = 0
         is_bonus_on = 0
-        is_malus_on = 0
-        malus_effect = 0
+        is_penalty_on = 0
+        penalty_effect = 0
         rem_time = GAME_TIME
         target.scale = SIZE_TARGET
         player.position = STARTUP_POSITION
@@ -285,19 +285,19 @@ def update():
 
                 rem_time = rem_time + 5
 
-    # When the player hits a malus
-    if player.x < (malus.x + GAP) and player.x > (malus.x - GAP):
-        if player.y < (malus.y + GAP) and player.y > (malus.y - GAP):
-            if is_malus_on == 1 and malus_hit == 0:
-                malus_hit = 1
+    # When the player hits a penalty
+    if player.x < (penalty.x + GAP) and player.x > (penalty.x - GAP):
+        if player.y < (penalty.y + GAP) and player.y > (penalty.y - GAP):
+            if is_penalty_on == 1 and penalty_hit == 0:
+                penalty_hit = 1
 
-                is_malus_on = 0
+                is_penalty_on = 0
 
-                malus.scale = (0, 0)
-                malus.color = color.dark_gray
-                malus.position = (7, 4)
+                penalty.scale = (0, 0)
+                penalty.color = color.dark_gray
+                penalty.position = (7, 4)
 
-                malus_effect = 1
+                penalty_effect = 1
 
     # When the player hits one of the left or right border
     if player.x < -7 or player.x > 7:
@@ -343,11 +343,11 @@ def update():
         bonus.x = 0
         bonus.y = 0
 
-    # When the malus leaves the window
-    if malus.x < -7 or malus.x > 7 or malus.y < -4 or malus.y > 4:
+    # When the penalty leaves the window
+    if penalty.x < -7 or penalty.x > 7 or penalty.y < -4 or penalty.y > 4:
 
-        malus.x = 0
-        malus.y = 0
+        penalty.x = 0
+        penalty.y = 0
 
     if rem_time < 6:
         info.color = color.orange
@@ -399,8 +399,8 @@ target = Entity(model='quad', color=color.red,
 bonus = Entity(model='quad', color=color.dark_gray,
                scale=(0, 0), position=(7, 4))
 
-malus = Entity(model='quad', color=color.dark_gray,
-               scale=(0, 0), position=(7, 4))
+penalty = Entity(model='quad', color=color.dark_gray,
+                 scale=(0, 0), position=(7, 4))
 
 info = Text(text='Score', origin=(0, 0), size=0.03, color=color.white)
 
