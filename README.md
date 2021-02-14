@@ -24,18 +24,19 @@ To launch the game, type :
 > python TargetHunter.py
 
 
-Your goal is to catch as much red targets as you can, using the WASD key, you can change them to ZQSD for French people or anything you want, in this part of the `TargetHunter.py` code, by changing the letter in the [ ] :
+Your goal is to catch as much red targets as you can, using the arrow or WASD keys, you can change them to ZQSD for French people or anything you want, in this part of the `TargetHunter.py` code, by changing the letter in the [ ] :
 
 ```python
 # WASD case :
-	if held_keys['w']:#Go Up
-		player.y = player.y + SPEED * time.dt
-	if held_keys['a']:#Go to the Left
-		player.x = player.x - SPEED * time.dt
-	if held_keys['s']:#Go Down
-		player.y = player.y - SPEED * time.dt
-	if held_keys['d']:#Go to the Right
-		player.x = player.x + SPEED * time.dt
+    if penalty_effect == 0:
+        if held_keys['w'] or held_keys['up arrow']:  # Go Up
+            player.y = player.y + spd * time.dt
+        if held_keys['q'] or held_keys['left arrow']:  # Go to the Left
+            player.x = player.x - spd * time.dt
+        if held_keys['s'] or held_keys['down arrow']:  # Go Down
+            player.y = player.y - spd * time.dt
+        if held_keys['d'] or held_keys['right arrow']:  # Go to the Right
+            player.x = player.x + spd * time.dt
 ```
 
 You can use the `ESCAPE` key to acces the Game Menu, and press `SPACE` to restart a game.
