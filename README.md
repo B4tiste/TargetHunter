@@ -26,7 +26,7 @@ To launch the game, type :
 
 Your goal is to catch as much red targets as you can, using the arrow or WASD keys, you can change them to ZQSD for French people or anything you want, in this part of the `TargetHunter.py` code, by changing the letter in the [ ] :
 
-```python=
+```python
 # WASD case :
     if penalty_effect == 0:
         if held_keys['w'] or held_keys['up arrow']:  # Go Up
