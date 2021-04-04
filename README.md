@@ -12,15 +12,17 @@ Be sure to check all the information below before playing
 
 ## How to play : 
 ### Requirements
-Be sure to have `Ursina` installed, the render engine I used for this project by using the following command, wich requires the `pip` module :
+Be sure to have `Ursina` installed, the render engine I used for this project, by using the following command, wich requires the `pip` module :
 > pip install ursina
 
-Then, clone this repository to your Computer and navigate into it by typing these commands :
+Then, if you have git installed on your machine, clone this repository and navigate into it by typing these commands :
 > git clone https://github.com/B4tiste/TargetHunter.git
 
 > cd TargetHunter
 
-To launch the game, type :
+If you do not have git installed on your machine, then dowload the `.zip` file of the project by clicking the green `[↓ Code]` button in the up right corner, and then unzip in the directory of your choice
+
+To launch the game, type this command in the terminal (be sure that the terminal is operating in the same directory than the one where the `TargetHunter.py` file is located, if it's note the case, make you way to it by using the `cd` command) :
 > python TargetHunter.py
 
 
