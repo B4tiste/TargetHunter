@@ -153,23 +153,23 @@ def update():
         '\nTime remaining : ' + str(rem_time) + 's'
 
     if penalty_effect == 0:
-        if held_keys['z']:  # Go Up
+        if held_keys['z'] or held_keys['up arrow']:  # Go Up
             player.y = player.y + spd * time.dt
-        if held_keys['q']:  # Go to the Left
+        if held_keys['q'] or held_keys['left arrow']:  # Go to the Left
             player.x = player.x - spd * time.dt
-        if held_keys['s']:  # Go Down
+        if held_keys['s'] or held_keys['down arrow']:  # Go Down
             player.y = player.y - spd * time.dt
-        if held_keys['d']:  # Go to the Right
+        if held_keys['d'] or held_keys['right arrow']:  # Go to the Right
             player.x = player.x + spd * time.dt
 
     if penalty_effect == 1:
-        if held_keys['s']:  # Go Up REVERSE
+        if held_keys['s'] or held_keys['up arrow']:  # Go Up REVERSE
             player.y = player.y + spd * time.dt
-        if held_keys['d']:  # Go to the Left REVERSE
+        if held_keys['d'] or held_keys['left arrow']:  # Go to the Left REVERSE
             player.x = player.x - spd * time.dt
-        if held_keys['z']:  # Go Down REVERSE
+        if held_keys['z'] or held_keys['down arrow']:  # Go Down REVERSE
             player.y = player.y - spd * time.dt
-        if held_keys['q']:  # Go to the Right REVERSE
+        if held_keys['q'] or held_keys['right arrow']:  # Go to the Right REVERSE
             player.x = player.x + spd * time.dt
 
     if rem_time == rdm_time_bonus:
