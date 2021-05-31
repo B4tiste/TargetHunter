@@ -22,7 +22,7 @@ Then, if you have git installed on your machine, clone this repository and navig
 
 If you do not have git installed on your machine, then dowload the `.zip` file of the project by clicking the green `[↓ Code]` button in the up right corner, and then unzip in the directory of your choice
 
-To launch the game, type this command in the terminal (be sure that the terminal is operating in the same directory than the one where the `TargetHunter.py` file is located, if it's note the case, make you way to it by using the `cd` command) :
+To launch the game, type this command in the terminal (be sure that the terminal is operating in the same directory than the one where the `TargetHunter.py` file is located, if it's not the case, make you way to it by using the `cd` command) :
 > python TargetHunter.py
 
 
